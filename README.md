@@ -1,8 +1,8 @@
-# Emailage
+[logo]: https://emailage.com/Content/Images/logo.svg "Emailage Logo"
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/emailage`. To experiment with that code, run `bin/console` for an interactive prompt.
+![alt text][logo](https://www.emailage.com)
 
-TODO: Delete this and the text above, and describe your gem
+The Emailage&#8482; API is organized around REST (Representational State Transfer). The API was built to help companies integrate with our highly efficient fraud risk and scoring system. By calling our API endpoints and simply passing us an email and/or IP Address, companies will be provided with real-time risk scoring assessments based around machine learning and proprietary algorithms that evolve with new fraud trends.
 
 ## Installation
 
@@ -19,18 +19,71 @@ And then execute:
 Or install it yourself as:
 
     $ gem install emailage
-
+    
 ## Usage
 
-TODO: Write usage instructions here
+Instantiate a client
+```ruby
+# For a production server
+emailage = Emailage::Client.new('My account SID', 'My auth token')
+# ... or for a sandbox
+emailage = Emailage::Client.new('My account SID', 'My auth token', sandbox: true)
+```
 
-## Development
+Query a risk score information for the provided email address, IP address, or a combination
+```ruby
+# For an email address
+emailage.query 'test@example.com'
+# For an IP address
+emailage.query '127.0.0.1'
+# For a combination. Please note the order
+emailage.query ['test@example.com', '127.0.0.1']
+# Pass a User Defined Record ID.
+# Can be used when you want to add an identifier for a query.
+# The identifier will be displayed in the result.
+emailage.query 'test@example.com', urid: 'My record ID for test@example.com'
+```
+Explicit methods produce the same request while validating format of the arguments passed
+```ruby
+# For an email address
+emailage.query_email 'test@example.com'
+# For an IP address
+emailage.query_ip_address '127.0.0.1'
+# For a combination. Please note the order
+emailage.query_email_and_ip_address 'test@example.com', '127.0.0.1'
+# Pass a User Defined Record ID
+emailage.query_email_and_ip_address 'test@example.com', '127.0.0.1', urid: 'My record ID for test@example.com and 127.0.0.1'
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Mark an email address as fraud, good, or neutral.  
+All the listed forms are possible.  
+When you mark something as fraud, don't forget to pass a fraud code name or number from this list:  
+1 - "Card Not Present Fraud"  
+2 - "Customer Dispute (Chargeback)"  
+3 - "First Party Fraud"  
+4 - "First Payment Default"  
+5 - "Identify Theft (Fraud Application)"  
+6 - "Identify Theft (Account Take Over)"  
+7 - "Suspected Fraud (Not Confirmed)"  
+8 - "Synthetic ID"  
+9 - "Other"  
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+# Mark an email address as fraud.
+emailage.flag 'fraud',   'test@example.com', 'Synthetic ID'
+emailage.flag_as_fraud   'test@example.com', 8
+# Mark an email address as good.
+emailage.flag 'good',    'test@example.com'
+emailage.flag_as_good    'test@example.com'
+# Unflag an email address that was previously marked as good or fraud.
+emailage.flag 'neutral', 'test@example.com'
+emailage.remove_flag     'test@example.com'
+```
 
-## Contributing
+### Exceptions
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/emailage.
+This gem can throw exceptions on any of the following issues:
 
+1. When Curl has an issue, like not being able to connect from your server to Emailage API,
+2. When bad formatted JSON is received,
+3. When an incorrect email or IP address is passed to a flagging or explicitly querying method.

@@ -19,4 +19,6 @@ module Emailage
   ].each_with_index.map {|code, idx|
     [code, idx+1]
   }]
+  
+  class Error < StandardError; end
 end

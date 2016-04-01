@@ -10,14 +10,18 @@ describe Emailage::Client do
     stub_const 'Typhoeus', t
   }
   
-  subject {described_class.new 'secret', 'token', true}
+  subject {described_class.new 'secret', 'token', sandbox: true}
+
+  it 'initialized with appropriate properties' do
+    expect(subject.sandbox).to eq true
+  end
 
   it 'generates appropriate HMAC-SHA1 key' do
     expect(subject.hmac_key).to eq 'token&'
   end
 
   describe '#request' do
-    let(:request) {subject.request '/endpoint', {:query => 'something'}}
+    let(:request) {subject.send :request, '/endpoint', {:query => 'something'}}
   
     it 'targets requests to the correct endpoint with correct request params' do
       request
@@ -55,10 +59,10 @@ describe Emailage::Client do
     it 'flags a supplied address as fraud with an appropriate fraud code' do
       expect(subject).to receive(:request).with '/flag',
         :flag => 'fraud',
-        :query => 'test+emailage@example.com+1.234.56.7',
+        :query => email,
         :fraudcodeID => 3
         
-      subject.flag_as_fraud [email, ip], 'First Party Fraud'
+      subject.flag_as_fraud email, 'First Party Fraud'
     end
     
     it 'raises an error when unknown fraud code is supplied' do
@@ -72,9 +76,9 @@ describe Emailage::Client do
     it 'unflags a supplied address' do
       expect(subject).to receive(:request).with '/flag',
         :flag => 'neutral',
-        :query => '1.234.56.7'
+        :query => email
         
-      subject.remove_flag ip
+      subject.remove_flag email
     end
   end
 
