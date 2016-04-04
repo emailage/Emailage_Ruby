@@ -30,7 +30,7 @@ emailage = Emailage::Client.new('My account SID', 'My auth token')
 emailage = Emailage::Client.new('My account SID', 'My auth token', sandbox: true)
 ```
 
-Query a risk score information for the provided email address, IP address, or a combination
+Query risk score information for the provided email address, IP address, or a combination
 ```ruby
 # For an email address
 emailage.query 'test@example.com'
@@ -56,8 +56,9 @@ emailage.query_email_and_ip_address 'test@example.com', '127.0.0.1', urid: 'My r
 ```
 
 Mark an email address as fraud, good, or neutral.  
-All the listed forms are possible.  
-When you mark something as fraud, don't forget to pass a fraud code name or number from this list:  
+All the listed forms are possible. 
+
+When you mark an email as fraud, you must pass the fraudCodeId:  
 1 - "Card Not Present Fraud"  
 2 - "Customer Dispute (Chargeback)"  
 3 - "First Party Fraud"  
@@ -82,8 +83,8 @@ emailage.remove_flag     'test@example.com'
 
 ### Exceptions
 
-This gem can throw exceptions on any of the following issues:
+This gem can throw exceptions for any of the following issues:
 
-1. When Curl has an issue, like not being able to connect from your server to Emailage API,
-2. When bad formatted JSON is received,
+1. When Curl has an issue and it's not possible to connect to the Emailage API
+2. When improperly formatted JSON is received
 3. When an incorrect email or IP address is passed to a flagging or explicitly querying method.
