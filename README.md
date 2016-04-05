@@ -71,7 +71,7 @@ When you mark an email as fraud, you must pass the fraudCodeId:
 
 ```ruby
 # Mark an email address as fraud.
-emailage.flag 'fraud',   'test@example.com', 'Synthetic ID'
+emailage.flag 'fraud',   'test@example.com', 8
 emailage.flag_as_fraud   'test@example.com', 8
 # Mark an email address as good.
 emailage.flag 'good',    'test@example.com'
