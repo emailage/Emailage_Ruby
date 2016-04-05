@@ -6,19 +6,17 @@ require 'emailage/validation'
 require 'emailage/client'
 
 module Emailage
-  FRAUD_CODES = Hash[[
-    'Card Not Present Fraud',
-    'Customer Dispute (Chargeback)',
-    'First Party Fraud',
-    'First Payment Default',
-    'Identify Theft (Fraud Application)',
-    'Identify Theft (Account Take Over)',
-    'Suspected Fraud (Not Confirmed)',
-    'Synthetic ID',
-    'Other'
-  ].each_with_index.map {|code, idx|
-    [code, idx+1]
-  }]
+  FRAUD_CODES = {
+    1 => 'Card Not Present Fraud',
+    2 => 'Customer Dispute (Chargeback)',
+    3 => 'First Party Fraud',
+    4 => 'First Payment Default',
+    5 => 'Identify Theft (Fraud Application)',
+    6 => 'Identify Theft (Account Take Over)',
+    7 => 'Suspected Fraud (Not Confirmed)',
+    8 => 'Synthetic ID',
+    9 => 'Other'
+  }
   
   class Error < StandardError; end
 end
