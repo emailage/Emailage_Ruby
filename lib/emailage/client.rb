@@ -126,11 +126,10 @@ module Emailage
       params = {:flag => flag, :query => query}
       
       if flag == 'fraud'
-        fraudcode_id = FRAUD_CODES.fetch(fraud_code, fraud_code)
-        unless FRAUD_CODES.values.include? fraudcode_id
-          raise ArgumentError, "fraud_code must be an integer from 1 to 9 or one of #{FRAUD_CODES.values*', '}. #{fraud_code} is given."
+        unless (1..9).to_a.include? fraud_code
+          raise ArgumentError, "fraud_code must be an integer from 1 to 9 corresponding to #{FRAUD_CODES.values*', '}. #{fraud_code} is given."
         end
-        params[:fraudcodeID] = fraudcode_id
+        params[:fraudcodeID] = fraud_code
       end
       
       request '/flag', params
