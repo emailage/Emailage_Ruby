@@ -62,12 +62,13 @@ describe Emailage::Client do
         :query => email,
         :fraudcodeID => 3
         
-      subject.flag_as_fraud email, 'First Party Fraud'
+      subject.flag_as_fraud email, 3
     end
     
-    it 'raises an error when unknown fraud code is supplied' do
+    it 'raises an error when none, unknown or string fraud code is supplied' do
       expect {subject.flag_as_fraud email}.to raise_error ArgumentError
       expect {subject.flag_as_fraud email, 'Blah blah'}.to raise_error ArgumentError
+      expect {subject.flag_as_fraud email, 'First Party Fraud'}.to raise_error ArgumentError
       expect {subject.flag_as_fraud email, 42}.to raise_error ArgumentError
     end
   end
