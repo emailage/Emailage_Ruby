@@ -5,17 +5,17 @@ require 'base64'
 module Emailage
   module Signature
     class << self
-      
+
       # 9.1.1.  Normalize Request Parameters
       def normalize_query_parameters(params)
-        params.sort.map {|k,v| [CGI.escape(k.to_s), CGI.escape(v.to_s)].join '='}.join '&'
+        params.sort.map {|k,v| [CGI.escape(k.to_s), ERB::Util.url_encode(v.to_s)].join '='}.join '&'
       end
-      
+
       # 9.1.3.  Concatenate Request Elements
       def concatenate_request_elements(method, url, query)
         [method.to_s.upcase, url, query].map {|e| CGI.escape(e)}.join '&'
       end
-      
+
       # 9.2.  HMAC-SHA1
       def hmac_sha1(base_string, hmac_key)
         OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha1'), hmac_key, base_string)
@@ -38,7 +38,7 @@ module Emailage
         # 9.2.1.  Generating Signature
         Base64.strict_encode64 digest
       end
-      
+
     end
   end
 end
