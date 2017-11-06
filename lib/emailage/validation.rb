@@ -1,3 +1,5 @@
+require "resolv"
+
 module Emailage
   module Validation
     class << self
@@ -9,7 +11,7 @@ module Emailage
       end
       
       def validate_ip!(ip)
-        unless ip =~ /\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/
+        unless ((ip =~ Resolv::IPv4::Regex) || (ip =~ Resolv::IPv6::Regex))
           raise ArgumentError, "#{ip} is not a valid IP address."
         end
       end
@@ -22,7 +24,8 @@ module Emailage
           validate_email! email_or_ip.first
           validate_ip! email_or_ip.last
         else
-          unless email_or_ip =~ /\A([^@\s]+@([^@\s]+\.)+[^@\s]+|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\z/
+          regex_union = Regexp.union(URI::MailTo::EMAIL_REGEXP, Resolv::IPv4::Regex, Resolv::IPv6::Regex)
+          unless email_or_ip =~ regex_union
             raise ArgumentError, "#{email_or_ip} is neither a valid IP address nor a valid email address."
           end
         end
@@ -31,3 +34,6 @@ module Emailage
     end
   end
 end
+
+
+    
