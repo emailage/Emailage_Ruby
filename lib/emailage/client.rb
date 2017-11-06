@@ -12,7 +12,7 @@ module Emailage
     # @param sandbox [Boolean] Whether to use a sandbox instead of a production server.
     #   Ensure the according secret and token are supplied.
     #
-    # @note HMAC key is created according to Emailage docs rather than OAuth1 spec.
+    # @note HMAC key is created according to Emailage docs.
     #
     def initialize(secret, token, options={})
       @secret, @token = secret, token
@@ -46,7 +46,6 @@ module Emailage
       
       res = Typhoeus.get url, :params => params.merge(:oauth_signature => Signature.create('GET', url, params, @hmac_key))
       
-      # For whatever reason Emailage dispatches JSON with unreadable symbls at the start, like \xEF\xBB\xBF.
       json = res.body.sub(/^[^{]+/, '')
       JSON.parse json
     end
