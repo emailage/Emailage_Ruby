@@ -6,8 +6,8 @@ require 'emailage/version'
 Gem::Specification.new do |spec|
   spec.name          = "emailage"
   spec.version       = Emailage::VERSION
-  spec.authors       = ["Sergey Baev"]
-  spec.email         = ["tinbka@gmail.com"]
+  spec.authors       = ["Emailage DEV Team"]
+  spec.email         = ["devit@emailage.com"]
 
   spec.summary       = "Emailage API client written in Ruby"
   spec.description   = "Emailage is a Fraud Prevention Solution. This gem implements a client for the Emailage web service."
