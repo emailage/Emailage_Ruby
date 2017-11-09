@@ -1,6 +1,7 @@
 require 'cgi'
 require 'openssl'
 require 'base64'
+require 'ERB'
 
 module Emailage
   module Signature

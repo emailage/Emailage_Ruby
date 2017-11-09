@@ -9,6 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Emailage DEV Team"]
   spec.email         = ["devit@emailage.com"]
 
+  spec.license       = "MIT"
   spec.summary       = "Emailage API client written in Ruby"
   spec.description   = "Emailage is a Fraud Prevention Solution. This gem implements a client for the Emailage web service."
   spec.homepage      = "https://emailage.com/"
