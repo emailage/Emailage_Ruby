@@ -6,5 +6,5 @@ RUN mkdir -p /app
 WORKDIR /app
 RUN gem install bundler 
 
-# docker build -t demo .
-# docker run -it -v $(pwd):/app demo bash 
+# docker build -t emailageDev .
+# docker run -it -v $(pwd):/app emailageDev bash 
