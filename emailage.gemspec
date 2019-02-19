@@ -24,8 +24,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-mocks", "~> 3.4"
   spec.add_development_dependency "yard", "~> 0.8"
   spec.add_development_dependency "redcarpet", "~> 3.3"
-  
+
   spec.add_dependency "typhoeus", "~> 1.0"
   spec.add_dependency "uuid", "~> 2.3"
-  spec.add_dependency "json", "~> 1.8"
+  spec.add_dependency "json", "~> 2.1"
 end
