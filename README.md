@@ -11,7 +11,7 @@ The Emailage&#8482; API is organized around REST (Representational State Transfe
 Add this line to your application's Gemfile:
 
 ``` ruby
-gem 'emailage'
+gem 'HornsAndHooves-emailage', require 'emailage'
 ```
 
 And then execute:

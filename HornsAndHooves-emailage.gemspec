@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'emailage/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "emailage"
+  spec.name          = "HornsAndHooves-emailage"
   spec.version       = Emailage::VERSION
   spec.authors       = ["Emailage DEV Team"]
   spec.email         = ["devit@emailage.com"]
