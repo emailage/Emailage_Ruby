@@ -1,5 +1,3 @@
-$:<<'./lib'
-
 require 'emailage/version'
 require 'emailage/signature'
 require 'emailage/validation'
