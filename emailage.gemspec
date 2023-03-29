@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.11"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rake", "~> 12.3.3"
   spec.add_development_dependency "rspec-core", "~> 3.4"
   spec.add_development_dependency "rspec-expectations", "~> 3.4"
   spec.add_development_dependency "rspec-mocks", "~> 3.4"
@@ -27,5 +27,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "typhoeus", "~> 1.0"
   spec.add_dependency "uuid", "~> 2.3"
-  spec.add_dependency "json", "~> 2.1"
+  spec.add_dependency "json", "~> 2.3"
 end
