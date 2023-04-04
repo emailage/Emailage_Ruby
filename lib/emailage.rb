@@ -19,4 +19,5 @@ module Emailage
   }
   
   class Error < StandardError; end
+  class TemporaryError < Error; end
 end

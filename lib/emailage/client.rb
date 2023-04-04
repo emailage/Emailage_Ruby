@@ -47,7 +47,11 @@ module Emailage
       res = Typhoeus.get url, :params => params.merge(:oauth_signature => Signature.create('GET', url, params, @hmac_key))
       
       json = res.body.sub(/^[^{]+/, '')
-      JSON.parse json
+      if res.code == 200
+        return JSON.parse json
+      elsif json.empty?
+        raise TemporaryError
+      end
     end
     
     public
