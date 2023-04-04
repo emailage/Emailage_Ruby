@@ -7,6 +7,9 @@ module Emailage
     attr_reader :secret, :token, :hmac_key, :sandbox
     attr_accessor :raise_errors
   
+    class EmailageError < StandardError; end
+    class TemporaryError < EmailageError; end
+
     # @param secret [String] Consumer secret, e.g. SID or API key.
     # @param token  [String] Consumer OAuth token.
     # @param sandbox [Boolean] Whether to use a sandbox instead of a production server.
@@ -45,9 +48,12 @@ module Emailage
       }.merge(params)
       
       res = Typhoeus.get url, :params => params.merge(:oauth_signature => Signature.create('GET', url, params, @hmac_key))
-      
       json = res.body.sub(/^[^{]+/, '')
-      JSON.parse json
+      if res.code == 200
+        return JSON.parse json
+      elsif json.empty?
+        raise TemporaryError
+      end
     end
     
     public
