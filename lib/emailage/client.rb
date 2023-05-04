@@ -1,5 +1,5 @@
 require 'typhoeus'
-require 'uuid'
+require 'securerandom'
 require 'json'
 
 module Emailage
@@ -38,16 +38,19 @@ module Emailage
       params = {
         :format => 'json', 
         :oauth_consumer_key => @secret,
-        :oauth_nonce => UUID.new.generate,
+        :oauth_nonce => SecureRandom.uuid,
         :oauth_signature_method => 'HMAC-SHA1',
         :oauth_timestamp => Time.now.to_i,
         :oauth_version => 1.0
       }.merge(params)
       
       res = Typhoeus.get url, :params => params.merge(:oauth_signature => Signature.create('GET', url, params, @hmac_key))
-      
+
       json = res.body.sub(/^[^{]+/, '')
-      JSON.parse json
+      if json.empty?
+        raise Failure, "Body length: #{res.body&.length} Code: #{res.code} "
+      end
+      return JSON.parse json
     end
     
     public

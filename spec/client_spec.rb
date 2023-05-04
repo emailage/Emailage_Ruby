@@ -4,9 +4,10 @@ describe Emailage::Client do
   let(:t) {spy :typhoeus}
   let(:email) {'test+emailage@example.com'}
   let(:ip) {'1.234.56.7'}
-  
+  let(:response) { double :response, :body => "\xEF\xBB\xBF{\"success\":[true]}", :code => 200 }
+
   before {
-    allow(t).to receive(:get) {double :response, :body => "\xEF\xBB\xBF{\"success\":[true]}"}
+    allow(t).to receive(:get) {response}
     stub_const 'Typhoeus', t
   }
   
@@ -32,6 +33,25 @@ describe Emailage::Client do
   
     it 'parses response body as JSON' do
       expect(request).to eq 'success' => [true]
+    end
+
+    context 'empty string returned' do
+      let(:response) { double :response, :body => "", :code => 503 }
+
+      it 'raises TemporaryError' do
+        expect { request }.to raise_error(Emailage::Failure)
+      end
+    end
+
+    context 'error string is returned' do
+      let(:response) { double :response, :body => "dummy body }", :code => 503 }
+
+      it 'raises TemporaryError' do
+        expect { request }.to raise_error(Emailage::Failure)
+        expect(response.body.length).to eq(12)
+        expect(response.code).to eq 503
+
+      end
     end
   end
 
