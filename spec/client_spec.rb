@@ -39,7 +39,18 @@ describe Emailage::Client do
       let(:response) { double :response, :body => "", :code => 503 }
 
       it 'raises TemporaryError' do
-        expect { request }.to raise_error(Emailage::TemporaryError)
+        expect { request }.to raise_error(Emailage::Failure)
+      end
+    end
+
+    context 'error string is returned' do
+      let(:response) { double :response, :body => "dummy body }", :code => 503 }
+
+      it 'raises TemporaryError' do
+        expect { request }.to raise_error(Emailage::Failure)
+        expect(response.body.length).to eq(12)
+        expect(response.code).to eq 503
+
       end
     end
   end
