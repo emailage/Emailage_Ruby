@@ -48,7 +48,7 @@ module Emailage
       
       json = res.body.sub(/^[^{]+/, '')
       if json.empty?
-        raise Failure, "Body length: #{res.body&.length} Code: #{res.code} "
+        raise Failure, "Received Body: '#{res.body}' with Code: #{res.code}"
       end
       return JSON.parse json
     end
