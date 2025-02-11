@@ -28,4 +28,4 @@ COPY . .
 CMD ["bash"]
 
 # docker build -t emailageDev .
-# docker run -it -v $(pwd):/app emailageDev bash 
+# docker run -it -v $(pwd):/app emailageDev bash
