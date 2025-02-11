@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   = "Emailage is a Fraud Prevention Solution. This gem implements a client for the Emailage web service."
   spec.homepage      = "https://emailage.com/"
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.files         = Dir.glob("lib/**/*") + ["Gemfile", "emailage.gemspec"]
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.11"
