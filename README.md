@@ -96,7 +96,7 @@ emailage.remove_flag     'test@example.com'
 
 ### Usage with Docker
 
-Add your credentials to the`sample_request.rb` script
+Add your credentials to the`sampleRequest.rb` script
 
 ```ruby
 require './lib/emailage'
@@ -104,10 +104,10 @@ client = Emailage::Client.new('Consumer Key', 'Consumer Secret')
 puts client.query('test@example.com')
 ```
 
-Run the script inside your docker container
+Run the script inside your docker container and pass it a target email
 
 ```docker
-docker run -it -v $(pwd):/app containerName ruby sample_request.rb
+docker run -it -v $(pwd):/app containerName ruby sample_request.rb test@test.com
 ```
 
 ### Exceptions
