@@ -13,6 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Emailage API client written in Ruby"
   spec.description   = "Emailage is a Fraud Prevention Solution. This gem implements a client for the Emailage web service."
   spec.homepage      = "https://emailage.com/"
+  spec.metadata      = { "source_code_uri" => "https://github.com/emailage/Emailage_Ruby" }
 
   spec.files         = Dir.glob("lib/**/*") + ["Gemfile", "emailage.gemspec"]
   spec.require_paths = ["lib"]
