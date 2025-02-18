@@ -1,9 +1,7 @@
-$:<<'./lib'
-
-require 'emailage/version'
-require 'emailage/signature'
-require 'emailage/validation'
-require 'emailage/client'
+require_relative 'emailage/version'
+require_relative 'emailage/signature'
+require_relative 'emailage/validation'
+require_relative 'emailage/client'
 
 module Emailage
   FRAUD_CODES = {

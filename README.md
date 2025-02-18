@@ -32,9 +32,12 @@ Instantiate a client
 
 ```ruby
 # For a production server
-emailage = Emailage::Client.new('My account SID', 'My auth token')
+emailage = Emailage::Client.new('Consumer Key', 'Consumer Secret')
+# Consumer Key can also be referred to as the 'Account SID'
+# Consumer Secret can also be referred to as the 'OAuth Token'
+
 # ... or for a sandbox
-emailage = Emailage::Client.new('My account SID', 'My auth token', sandbox: true)
+emailage = Emailage::Client.new('Consumer Key', 'Consumer Secret', sandbox: true)
 ```
 
 Query risk score information for the provided email address, IP address, or a combination
@@ -89,6 +92,22 @@ emailage.flag_as_good    'test@example.com'
 # Unflag an email address that was previously marked as good or fraud.
 emailage.flag 'neutral', 'test@example.com'
 emailage.remove_flag     'test@example.com'
+```
+
+### Usage with Docker
+
+Add your credentials to the`sampleRequest.rb` script
+
+```ruby
+require './lib/emailage'
+client = Emailage::Client.new('Consumer Key', 'Consumer Secret')
+puts client.query('test@example.com')
+```
+
+Run the script inside your docker container and pass it a target email
+
+```docker
+docker run -it -v $(pwd):/app containerName ruby sample_request.rb test@test.com
 ```
 
 ### Exceptions
