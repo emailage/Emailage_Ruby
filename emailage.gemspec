@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "emailage"
   spec.version       = Emailage::VERSION
   spec.authors       = ["Emailage DEV Team"]
-  spec.email         = ["devit@emailage.com"]
+  spec.email         = ["eml-devops.team@lexisnexisrisk.com"]
 
   spec.license       = "MIT"
   spec.summary       = "Emailage API client written in Ruby"
