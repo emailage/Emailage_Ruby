@@ -27,6 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "redcarpet", "~> 3.6"
 
   spec.add_dependency "typhoeus", "~> 1.4"
-  spec.add_dependency "uuid", "~> 2.3"
   spec.add_dependency "json", "~> 2.9"
 end
