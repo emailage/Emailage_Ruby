@@ -1,12 +1,12 @@
 require 'typhoeus'
-require 'uuid'
+require 'securerandom'
 require 'json'
 
 module Emailage
   class Client
     attr_reader :secret, :token, :hmac_key, :sandbox
     attr_accessor :raise_errors
-  
+
     # @param secret [String] Consumer secret, e.g. SID or API key.
     # @param token  [String] Consumer OAuth token.
     # @param sandbox [Boolean] Whether to use a sandbox instead of a production server.
@@ -18,13 +18,13 @@ module Emailage
       @secret, @token = secret, token
       @sandbox = options.fetch :sandbox, false
       @raise_errors = options.fetch :raise_errors, false
-      
+
       # @hmac_key = [@secret, @token].map {|e| CGI.escape(e)}.join '&'
       @hmac_key = @token + '&'
     end
-    
+
     private
-    
+
     # Basic request method utilized by #query and #flag.
     #
     # @param endpoint [String] Currently, either an empty string or "/flag".
@@ -36,22 +36,22 @@ module Emailage
       base_url = "https://#{@sandbox ? 'sandbox' : 'api'}.emailage.com/emailagevalidator"
       url = "#{base_url}#{endpoint}/"
       params = {
-        :format => 'json', 
+        :format => 'json',
         :oauth_consumer_key => @secret,
-        :oauth_nonce => UUID.new.generate,
+        :oauth_nonce => SecureRandom.uuid,
         :oauth_signature_method => 'HMAC-SHA1',
         :oauth_timestamp => Time.now.to_i,
         :oauth_version => 1.0
       }.merge(params)
-      
+
       res = Typhoeus.get url, :params => params.merge(:oauth_signature => Signature.create('GET', url, params, @hmac_key))
-      
+
       json = res.body.sub(/^[^{]+/, '')
       JSON.parse json
     end
-    
+
     public
-    
+
     # Query a risk score information for the provided email address, IP address, or a combination.
     #
     # @param query [String | Array<String>] Email, IP or a tuple of (Email, IP).
@@ -64,7 +64,7 @@ module Emailage
       query *= '+' if query.is_a? Array
       request '', params.merge(:query => query)
     end
-    
+
     # Query a risk score information for the provided email address.
     # This method differs from #query in that it ensures that the string supplied is in rfc2822 format.
     #
@@ -76,7 +76,7 @@ module Emailage
       Validation.validate_email! email
       query email, params
     end
-    
+
     # Query a risk score information for the provided IP address.
     # This method differs from #query in that it ensures that the string supplied is in rfc791 format.
     #
@@ -88,7 +88,7 @@ module Emailage
       Validation.validate_ip! ip
       query ip, params
     end
-    
+
     # Query a risk score information for the provided combination of an Email and IP address.
     # This method differs from #query in that it ensures that the strings supplied are in rfc2822 and rfc791 formats.
     #
@@ -102,8 +102,8 @@ module Emailage
       Validation.validate_ip! ip
       query [email, ip], params
     end
-    
-    
+
+
     # Mark an email address as fraud, good, or neutral.
     #
     # @param flag  [String] Either fraud, neutral, or good.
@@ -118,22 +118,22 @@ module Emailage
       unless flags.include? flag.to_s
         raise ArgumentError, "flag must be one of #{flags * ', '}. #{flag} is given."
       end
-      
+
       Validation.validate_email! query
-      
+
       query *= '+' if query.is_a? Array
       params = {:flag => flag, :query => query}
-      
+
       if flag == 'fraud'
         unless (1..9).to_a.include? fraud_code
           raise ArgumentError, "fraud_code must be an integer from 1 to 9 corresponding to #{FRAUD_CODES.values*', '}. #{fraud_code} is given."
         end
         params[:fraudcodeID] = fraud_code
       end
-      
+
       request '/flag', params
     end
-    
+
     # Mark an email address as fraud.
     #
     # @param query [String] Email to be flagged.
@@ -144,7 +144,7 @@ module Emailage
     def flag_as_fraud(query, fraud_code)
       flag 'fraud', query, fraud_code
     end
-    
+
     # Mark an email address as good.
     #
     # @param query [String] Email to be flagged.
@@ -152,7 +152,7 @@ module Emailage
     def flag_as_good(query)
       flag 'good', query
     end
-    
+
     # Unflag an email address that was marked as good or fraud previously.
     #
     # @param query [String] Email to be flagged.
@@ -160,6 +160,6 @@ module Emailage
     def remove_flag(query)
       flag 'neutral', query
     end
-  
+
   end
 end
