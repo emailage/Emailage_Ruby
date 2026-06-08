@@ -6,7 +6,9 @@
 >
 > **➡ [https://github.com/lexisnexis-risk-solutions/emailage-public-clients/tree/main/Emailage_Ruby](https://github.com/lexisnexis-risk-solutions/emailage-public-clients/tree/main/Emailage_Ruby)**
 >
-> No further updates will be made to this repository.# Emailage Ruby API Client
+> No further updates will be made to this repository.
+
+# Emailage Ruby API Client
 
 ![alt text][logo]
 
