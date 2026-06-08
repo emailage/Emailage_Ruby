@@ -1,4 +1,12 @@
-# Emailage Ruby API Client
+> [!WARNING]
+> **This repository will no longer be accessible after 30th September 2026.**
+>
+> This project has been migrated to a consolidated monorepo. Please update your bookmarks, forks,
+> and any CI/CD pipelines to point to the new location:
+>
+> **➡ [https://github.com/lexisnexis-risk-solutions/emailage-public-clients/tree/main/Emailage_Ruby](https://github.com/lexisnexis-risk-solutions/emailage-public-clients/tree/main/Emailage_Ruby)**
+>
+> No further updates will be made to this repository.# Emailage Ruby API Client
 
 ![alt text][logo]
 
